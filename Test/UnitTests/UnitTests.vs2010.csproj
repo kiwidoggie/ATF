@@ -308,10 +308,6 @@
       <Project>{ad8b5500-d8e2-4609-beca-c405ea22b1ae}</Project>
       <Name>Atf.Subversion.vs2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NativeTestHelpers\NativeTestHelpers.vcxproj">
-      <Project>{fa4aab2f-8d6b-40f1-ae2d-e4793ae1b2df}</Project>
-      <Name>NativeTestHelpers</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
