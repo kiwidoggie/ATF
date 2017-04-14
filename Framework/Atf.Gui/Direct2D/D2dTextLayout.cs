@@ -6,6 +6,7 @@ using SharpDX.DirectWrite;
 using ClusterMetrics = Sce.Atf.DirectWrite.ClusterMetrics;
 using HitTestMetrics = Sce.Atf.DirectWrite.HitTestMetrics;
 using LineMetrics = Sce.Atf.DirectWrite.LineMetrics;
+using SharpDX.Mathematics.Interop;
 
 namespace Sce.Atf.Direct2D
 {
@@ -93,8 +94,8 @@ namespace Sce.Atf.Direct2D
         /// <returns>HitTestMetrics of text string where hit test occurs</returns>
         public HitTestMetrics HitTestPoint(float x, float y)
         {
-            Bool isTrailingHit;
-            Bool isInside;
+            RawBool isTrailingHit;
+            RawBool isInside;
             var hitTestMetrics = NativeTextLayout.HitTestPoint(x, y, out isTrailingHit, out isInside);
             var result = new HitTestMetrics
             {

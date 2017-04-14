@@ -308,7 +308,7 @@ namespace Sce.Atf.Direct2D
         /// <returns>A new instance of D2dTextLayout</returns>
         public static D2dTextLayout CreateTextLayout(string text, D2dTextFormat textFormat, float layoutWidth, float layoutHeight, Matrix3x2F transform)
         {
-            var matrix = Matrix.Identity;
+            var matrix = Matrix3x2.Identity;
             matrix.M11 = transform.M11;
             matrix.M12 = transform.M12;
             matrix.M21 = transform.M21;

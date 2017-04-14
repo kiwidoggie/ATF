@@ -64,7 +64,7 @@ namespace Sce.Atf.Direct2D
             get
             {
                 var rect = m_geometry.GetBounds();
-                return new RectangleF(rect.Left, rect.Top, rect.Width, rect.Height);
+                return new RectangleF(rect.Left, rect.Top, rect.Right, rect.Bottom);
             }
         }
 
