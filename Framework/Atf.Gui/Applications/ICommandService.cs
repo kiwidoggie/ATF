@@ -33,6 +33,15 @@ namespace Sce.Atf.Applications
         void UnregisterCommand(object commandTag, ICommandClient client);
 
         /// <summary>
+        /// ADDED BY KIWIDOG
+        /// I have no idea why this isn't in here
+        /// TODO: Documentation
+        /// </summary>
+        /// <param name="menuTag"></param>
+        /// <param name="client"></param>
+        void UnregisterMenu(object menuTag, ICommandClient client);
+
+        /// <summary>
         /// Displays a context menu at the point, in screen coordinates</summary>
         /// <param name="commandTags">Commands to display in menu</param>
         /// <param name="screenPoint">Point, in screen coordinates, of menu top

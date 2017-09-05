@@ -134,6 +134,15 @@ namespace Sce.Atf.Applications
             }
         }
 
+        public virtual void UnregisterMenu(object menuTag, ICommandClient client)
+        {
+            MenuInfo info = GetMenuInfo(menuTag);
+            if (info == null)
+                return;
+
+            UnregisterMenuInfo(info, client);
+        }
+
         /// <summary>
         /// Displays a context (right-click popup) menu at the given screen point. Raises
         /// the ContextMenuClosed events.</summary>
@@ -586,6 +595,12 @@ namespace Sce.Atf.Applications
         {
             m_commandsById.Remove(info.CommandTag);
             m_commands.Remove(info);
+        }
+
+        protected virtual void UnregisterMenuInfo(MenuInfo info, ICommandClient client)
+        {
+            info.Commands = 0;
+            m_menus.Remove(info);
         }
 
         /// <summary>
