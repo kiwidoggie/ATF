@@ -86,6 +86,55 @@ namespace Sce.Atf.Applications
             RemoveToolStripItem(commandTag);
         }
 
+        public override void UnregisterMenu(object menuTag, ICommandClient client)
+        {
+            /*
+             * base.RegisterMenuInfo(info);
+
+            // If it wasn't already done, create a WinForms ToolStrip for this MenuInfo
+            ToolStrip toolStrip;
+            if (m_menuToolStrips.TryGetValue(info, out toolStrip) == false)
+            {
+                toolStrip = new ToolStripEx();
+                toolStrip.MouseHover += ToolStripOnMouseHover;
+                m_menuToolStrips.Add(info, toolStrip);
+            }
+
+            // build toolbar corresponding to menu
+            {
+                string str = info.MenuText.Replace("&", "");
+                str = str.Replace(";", "");
+                toolStrip.Name = str + "_toolbar";
+                toolStrip.AllowItemReorder = true; // magic, to enable customization with Alt key
+            }
+
+            // build menu
+            ToolStripMenuItem menuItem = new ToolStripMenuItem(info.MenuText);
+            menuItem.Visible = false;
+            menuItem.Name = info.MenuText + "_menu";
+            menuItem.Tag = info.MenuTag;
+            m_menuToolStripItems.Add(info, menuItem);
+            
+            // Associate the registered MenuInfo with this CommandService.  Only can be registered once.
+            info.CommandService = this;*/
+
+            base.UnregisterMenu(menuTag, client);
+
+            MenuInfo menuInfo = GetMenuInfo(menuTag);
+            if (menuInfo == null)
+                return;
+
+            menuInfo.CommandService = null;
+            m_menuToolStripItems.Remove(menuInfo);
+
+            ToolStrip toolStrip = GetMenuToolStrip(menuInfo);
+            if (toolStrip != null)
+                toolStrip.MouseHover -= ToolStripOnMouseHover;
+
+            m_menuToolStrips.Remove(menuInfo);
+        }
+
+
         /// <summary>
         /// Decrements the count of commands associated with the specified MenuInfo</summary>
         /// <param name="menuInfo">MenuInfo whose command count is decremented</param>
@@ -862,12 +911,29 @@ namespace Sce.Atf.Applications
             // build menu
             ToolStripMenuItem menuItem = new ToolStripMenuItem(info.MenuText);
             menuItem.Visible = false;
-            menuItem.Name = info.MenuText + "_menu";
+            menuItem.Name = $"{info.MenuTag}_menu";
             menuItem.Tag = info.MenuTag;
             m_menuToolStripItems.Add(info, menuItem);
             
             // Associate the registered MenuInfo with this CommandService.  Only can be registered once.
             info.CommandService = this;
+        }
+
+        protected sealed override void UnregisterMenuInfo(MenuInfo info, ICommandClient client)
+        {
+            base.UnregisterMenuInfo(info, client);
+
+            info.CommandService = null;
+
+            m_menuToolStripItems.Remove(info);
+
+            ToolStrip toolStrip = GetMenuToolStrip(info);
+
+            if (toolStrip != null)
+                toolStrip.MouseHover -= ToolStripOnMouseHover;
+
+            m_menuToolStrips.Remove(info);
+
         }
 
         /// <summary>
@@ -955,7 +1021,7 @@ namespace Sce.Atf.Applications
 
             Image image = GetProperlySizedImage(info.ImageName);
 
-            string uniqueId = GetCommandPath(info);
+            string uniqueId = GetCommandPath(info) + new Random().Next().ToString("X");
 
             // Create the WinForms controls to be associated with the registered MenuInfo
             var controls = new CommandControls(
